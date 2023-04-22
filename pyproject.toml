@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "admin-material"
+version = "0.1.0"
+description = "Redesign of Django admin interface using MD Bootstrap"
+authors = ["Yousef Abu Shanab <josephyousef249@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "admin_material"}]
+homepage = "https://github.com/youzarsiph/admin-material/"
+repository = "https://github.com/youzarsiph/admin-material/"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
