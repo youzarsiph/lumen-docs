@@ -1,17 +1,18 @@
 [tool.poetry]
-name = "admin-material"
+name = "lumen-docs"
 version = "0.1.0"
 description = "Redesign of Django admin interface using MD Bootstrap"
 authors = ["Yousef Abu Shanab <josephyousef249@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "admin_material"}]
-homepage = "https://github.com/youzarsiph/admin-material/"
-repository = "https://github.com/youzarsiph/admin-material/"
+packages = [{include = "lumen"}]
+homepage = "https://github.com/youzarsiph/lumen-docs/"
+repository = "https://github.com/youzarsiph/lumen-docs/"
 
 [tool.poetry.dependencies]
 python = ">=3.9"
 click = "^8.1.7"
+transformers = {extras = ["torch"], version = "^4.40.2"}
 
 
 [build-system]
