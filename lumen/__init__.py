@@ -1,1 +1,1 @@
-""" LumenDocs: Guiding Light for Developers. """
+""" Lumen: Guiding Light for Developers. """
