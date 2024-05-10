@@ -1,8 +1,8 @@
 """ Command for translating text """
 
 import click
-import requests
 from lumen.model import translator
+from lumen.utils.process import process
 
 
 @click.command()
@@ -32,7 +32,7 @@ from lumen.model import translator
 @click.option(
     "-f",
     "--file",
-    type=click.Path(exists=True, dir_okay=False),
+    type=click.File(mode="r", encoding="utf-8"),
     help="File to translate",
 )
 @click.option("-u", "--url", help="URL to translate")
@@ -42,19 +42,19 @@ def translate(text: str, frm: str, to: str, file: str, url: str):
     txt: str = f"translate {frm} to {to}: "
 
     if text:
-        txt += text
+        txt += process("text", text)
 
     elif file:
-        txt = open(file, "r").read()
+        txt += process("file", file)
 
     elif url:
-        response = requests.get(url)
-
-        if response.ok:
-            pass
-
-        else:
-            click.Abort("Invalid URL")
+        txt += process("url", url)
+    else:
+        click.echo(
+            click.style("Error: ", fg="red", bold=True)
+            + "No text, file or url provided"
+        )
+        return
 
     click.echo("Translating...")
 

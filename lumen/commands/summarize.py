@@ -1,8 +1,8 @@
 """ Command for summarizing text """
 
 import click
-import requests
 from lumen.model import summarizer
+from lumen.utils.process import process
 
 
 @click.command()
@@ -14,7 +14,7 @@ from lumen.model import summarizer
 @click.option(
     "-f",
     "--file",
-    type=click.Path(exists=True, dir_okay=False),
+    type=click.File(mode="r", encoding="utf-8"),
     help="File to summarize",
 )
 @click.option("-u", "--url", help="URL to summarize")
@@ -24,24 +24,24 @@ def summarize(text: str, file: str, url: str):
     txt: str = "summarize: "
 
     if text:
-        txt += text
+        txt += process("text", text)
 
     elif file:
-        txt = open(file, "r").read()
+        txt += process("file", file)
 
     elif url:
-        response = requests.get(url)
-
-        if response.ok:
-            pass
-
-        else:
-            click.Abort("Invalid URL")
+        txt += process("url", url)
+    else:
+        click.echo(
+            click.style("Error: ", fg="red", bold=True)
+            + "No text, file or url provided"
+        )
+        return
 
     click.echo("Summarizing...")
 
-    summary = summarizer(txt, max_length=512)
-    click.echo(len(text))
+    summary = summarizer(txt, max_length=2048)
+    click.echo(len(txt))
     click.echo(len(summary[0]["summary_text"]))
     click.echo(summary[0]["summary_text"])
 

@@ -9,6 +9,7 @@ def cli():
     """Guiding Light for Developers."""
 
 
+cli.add_command(commands.qa)
 cli.add_command(commands.summarize)
 cli.add_command(commands.translate)
 
