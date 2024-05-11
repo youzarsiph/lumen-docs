@@ -27,4 +27,4 @@ def parse_url(url: str) -> str:
 
     soup = BeautifulSoup(response.text, "html.parser")
 
-    return parse_text(soup.text)
+    return parse_text(" ".join(soup.stripped_strings))

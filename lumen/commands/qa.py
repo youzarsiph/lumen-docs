@@ -2,6 +2,7 @@
 
 import click
 from lumen.model import question_answerer
+from lumen.utils.prettify import prettify
 from lumen.utils.process import process
 
 
@@ -48,9 +49,14 @@ def qa(question: str, text: str, file: str, url: str):
         )
         return
 
-    click.echo("Summarizing...")
+    click.echo(click.style("Extracting the answer...", fg="yellow", bold=True))
 
-    answer = question_answerer({"context": ctx, "question": question})
-    click.echo(answer)
+    result = question_answerer({"context": prettify(ctx), "question": question})
+
+    click.echo(
+        click.style("Answer: ", fg="blue", bold=True) + prettify(result["answer"])
+    )
+
+    click.echo(result)
 
     click.echo(click.style("Done!", fg="green", bold=True))

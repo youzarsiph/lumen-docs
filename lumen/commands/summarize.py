@@ -2,6 +2,7 @@
 
 import click
 from lumen.model import summarizer
+from lumen.utils.prettify import prettify
 from lumen.utils.process import process
 
 
@@ -38,11 +39,13 @@ def summarize(text: str, file: str, url: str):
         )
         return
 
-    click.echo("Summarizing...")
+    click.echo(click.style("Summarizing...", fg="yellow", bold=True))
 
-    summary = summarizer(txt, max_length=2048)
-    click.echo(len(txt))
-    click.echo(len(summary[0]["summary_text"]))
-    click.echo(summary[0]["summary_text"])
+    summary = summarizer(txt)
+
+    click.echo(
+        click.style("Summary: ", fg="blue", bold=True)
+        + prettify("\n".join([s["summary_text"] for s in summary]))
+    )
 
     click.echo(click.style("Done!", fg="green", bold=True))

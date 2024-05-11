@@ -2,6 +2,7 @@
 
 import click
 from lumen.model import translator
+from lumen.utils.prettify import prettify
 from lumen.utils.process import process
 
 
@@ -56,9 +57,13 @@ def translate(text: str, frm: str, to: str, file: str, url: str):
         )
         return
 
-    click.echo("Translating...")
+    click.echo(click.style("Translating...", fg="yellow", bold=True))
 
-    translation = translator(txt, max_length=512)
-    click.echo(translation[0]["translation_text"])
+    translation = translator(prettify(txt))
+
+    click.echo(
+        click.style("Summary: ", fg="blue", bold=True)
+        + prettify("\n".join([t["translation_text"] for t in translation]))
+    )
 
     click.echo(click.style("Done!", fg="green", bold=True))
