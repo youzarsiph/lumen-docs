@@ -1,7 +1,7 @@
-""" Command question answering """
+""" Command for Question Answering """
 
 import click
-from lumen.model import question_answerer
+from lumen import client
 from lumen.utils.prettify import prettify
 from lumen.utils.process import process
 
@@ -30,7 +30,14 @@ from lumen.utils.process import process
     help="URL that the answer will be extracted from",
 )
 def qa(question: str, text: str, file: str, url: str):
-    """Answer questions"""
+    """
+    Retrieve the answer to a question from a given text.
+
+    Examples:\n
+    lumen qa -q "What's my name?" -t "My name is Clara and I live in Berkeley."\n
+    lumen qa -q "What's my name?" -f input.txt\n
+    lumen qa -q "What's my name?" -u https://example.com
+    """
 
     ctx: str = ""
 
@@ -51,12 +58,8 @@ def qa(question: str, text: str, file: str, url: str):
 
     click.echo(click.style("Extracting the answer...", fg="yellow", bold=True))
 
-    result = question_answerer({"context": prettify(ctx), "question": question})
+    result = client.question_answering(context=ctx, question=question)
 
-    click.echo(
-        click.style("Answer: ", fg="blue", bold=True) + prettify(result["answer"])
-    )
-
-    click.echo(result)
+    click.echo(click.style("Answer: ", fg="blue", bold=True) + prettify(result.answer))
 
     click.echo(click.style("Done!", fg="green", bold=True))

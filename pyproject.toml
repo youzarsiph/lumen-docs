@@ -12,9 +12,9 @@ repository = "https://github.com/youzarsiph/lumen-docs/"
 [tool.poetry.dependencies]
 python = ">=3.9"
 click = "^8.1.7"
-transformers = {extras = ["torch"], version = "^4.40.2"}
 requests = "^2.31.0"
 beautifulsoup4 = "^4.12.3"
+huggingface-hub = "^0.23.1"
 
 
 [build-system]

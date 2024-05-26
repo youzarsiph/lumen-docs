@@ -1,7 +1,7 @@
 """ LumenDocs CLI """
 
 import click
-from lumen import commands
+from lumen.commands import commands
 
 
 @click.group()
@@ -9,9 +9,8 @@ def cli():
     """Guiding Light for Developers."""
 
 
-cli.add_command(commands.qa)
-cli.add_command(commands.summarize)
-cli.add_command(commands.translate)
+for command in commands:
+    cli.add_command(command)
 
 
 if __name__ == "__main__":

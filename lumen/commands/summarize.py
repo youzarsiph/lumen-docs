@@ -1,7 +1,7 @@
-""" Command for summarizing text """
+""" Command for Summarization """
 
 import click
-from lumen.model import summarizer
+from lumen import client
 from lumen.utils.prettify import prettify
 from lumen.utils.process import process
 
@@ -20,9 +20,16 @@ from lumen.utils.process import process
 )
 @click.option("-u", "--url", help="URL to summarize")
 def summarize(text: str, file: str, url: str):
-    """Summarize text"""
+    """
+    Generate a summary of a given text.
 
-    txt: str = "summarize: "
+    Examples:\n
+    lumen summarize -t "The Eiffel tower..."\n
+    lumen summarize -f input.txt\n
+    lumen summarize -u "https://example.com"
+    """
+
+    txt: str = ""
 
     if text:
         txt += process("text", text)
@@ -32,6 +39,7 @@ def summarize(text: str, file: str, url: str):
 
     elif url:
         txt += process("url", url)
+
     else:
         click.echo(
             click.style("Error: ", fg="red", bold=True)
@@ -41,11 +49,10 @@ def summarize(text: str, file: str, url: str):
 
     click.echo(click.style("Summarizing...", fg="yellow", bold=True))
 
-    summary = summarizer(txt)
+    summary = client.summarization(txt)
 
     click.echo(
-        click.style("Summary: ", fg="blue", bold=True)
-        + prettify("\n".join([s["summary_text"] for s in summary]))
+        click.style("Summary: ", fg="blue", bold=True) + prettify(summary.summary_text)
     )
 
     click.echo(click.style("Done!", fg="green", bold=True))
